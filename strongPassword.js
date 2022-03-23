@@ -1,37 +1,39 @@
 function minimumNumber(n, password) {
-  let counter = 0;
-  let numbers = "0123456789";
-  let lower_case = "abcdefghijklmnopqrstuvwxyz";
-  let upper_case = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let special_characters = "!@#$%^&*()-+";
+  let obj = {
+    numbers: /\d/g,
+    lower_case: /[a-z]/,
+    upper_case: /[A-Z]/,
+    special_characters: /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,<>\/?~]/,
+  };
 
-  let obj = [
-    [{ counter, amount: 0 }],
-    [{ numbers, amount: 0 }],
-    [{ lower_case, amount: 0 }],
-    [{ upper_case, amount: 0 }],
-    [{ special_characters, amount: 0 }],
-  ];
-
-  // Return the minimum number of characters to make the password strong
-  //   for (let i = 0; i < 5; i++) {
-  for (let i = 0; i < obj.length; i++) {
-    console.log(obj[i][0].counter, (obj[i][0].amount = counter++));
-    if (password.includes(obj[i][0].numbers) && amount == 0) {
-      obj[k].counter++;
-    }
-    if (password.includes(lower_case)) {
-      counter++;
-    }
-    if (password.includes(upper_case)) {
-      counter++;
-    }
-    if (password.includes(special_characters)) {
-      counter++;
-    }
+  if (!password.match(obj.numbers)) {
+    password += ".";
   }
-
-  //   }
+  if (!password.match(obj.lower_case)) {
+    password += ".";
+  }
+  if (!password.match(obj.upper_case)) {
+    password += ".";
+  }
+  if (!password.match(obj.special_characters)) {
+    password += ".";
+  }
+  let subs = 0;
+  let splitPoint = password.match(/\./g);
+  let splitAmount = splitPoint ? splitPoint.length : 0;
+  if (password.length < 6) {
+    subs = 6 - password.length + splitAmount;
+  } else {
+    subs = splitAmount;
+  }
+  console.log(subs, password);
+  return subs;
 }
 
-minimumNumber(3, "Ab1");
+minimumNumber(3, "Ab1"); //expected 3 
+minimumNumber(11, "#HackerRank"); //expected 1 
+minimumNumber(2, "12"); //epected 4 counter 1
+minimumNumber(4, "g1A!"); //expected 2
+minimumNumber(7, "AUzs-nV"); //expected 1
+
+
